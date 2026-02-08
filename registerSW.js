@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/prj--bloom-cycle-tracker/sw.js', { scope: '/prj--bloom-cycle-tracker/' })})}

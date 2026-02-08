@@ -1,0 +1,17 @@
+{
+  "name": "Bloom Period Tracker",
+  "version": "0.0.0",
+  "description": "Your private, supportive period tracking companion. Track your cycle, symptoms, and get personalized insights - all stored locally on your device.",
+  "slug": "prj--bloom-cycle-tracker",
+  "id": "prj--bloom-cycle-tracker-01",
+  "shortDescription": "Your private, supportive period tracking companion. Track your cycle, symptoms, and get personalized insights - all stored locally on your device.",
+  "category": "Web App",
+  "techStack": [],
+  "images": [],
+  "sourceUrl": "",
+  "demoUrl": "",
+  "docsUrl": "",
+  "featured": false,
+  "createdAt": "2023-11-18T00:00:00.000Z",
+  "tags": []
+}
