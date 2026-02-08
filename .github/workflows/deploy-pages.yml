@@ -12,7 +12,7 @@ env:
 
 jobs:
   deploy:
-    name: Deploy Front-end Playground
+    name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
     steps:
       - name: "📥 checkout repository"
