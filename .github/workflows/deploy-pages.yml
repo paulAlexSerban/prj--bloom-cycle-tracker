@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
   NODE_VERSION: 24.13.0
   BASE_URL: ${{ secrets.BASE_URL }}
@@ -16,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "📥 checkout repository"
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -30,7 +33,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: "🔧  Setup NodeJS ${{ env.NODE_VERSION }}"
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -44,7 +47,8 @@ jobs:
         run: yarn build:prod -- --base=/${{ github.event.repository.name }}/
 
       - name: "🚀 Deploy to GitHub Pages"
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: dist
+          token: ${{ secrets.GITHUB_TOKEN }}
