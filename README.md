@@ -2,6 +2,8 @@
 
 Bloom is a private and supportive period tracking companion that helps users track their menstrual cycles, symptoms, and provides personalized insights. The app emphasizes user privacy by storing all data locally on the device, ensuring that sensitive health information remains secure.
 
+Project is open-source and available on GitHub.
+
 ## MVP Features
 - Period Logging - start/end dates with flow intensity (light, medium, heavy)
 - Cycle Calendar - visual month view with period dais highlighted, prediction marked
