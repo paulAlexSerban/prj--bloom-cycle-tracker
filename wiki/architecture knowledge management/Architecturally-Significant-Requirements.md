@@ -34,3 +34,7 @@ Bloom is a privacy-first period tracking PWA focused on local-only data storage,
 ## ASR-8: Data Portability
 **Requirement:** Users must be able to export/import their data for portability and medical consultations.
 **Architectural Impact:** Requires a stable local data schema and export/import utilities.
+
+## ASR-9: Pre-prod Deployment
+**Requirement:** The app must be deployable to a staging environment for testing before production release.
+**Architectural Impact:** Requires a CI/CD pipeline and hosting solution that supports PWA deployment.
