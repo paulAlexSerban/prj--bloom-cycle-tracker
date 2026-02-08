@@ -63,3 +63,7 @@ Use GitHub Pages as the pre-production (staging) hosting environment for the PWA
 - Pre-prod deployment is simple and aligned with the static PWA architecture.
 - CI/CD can publish builds to GitHub Pages with minimal setup.
 - If advanced preview environments are needed later, a move to Vercel/Netlify can be evaluated.
+
+## Implementation Notes
+- A GitHub Actions workflow publishes the build output to Pages.
+- For repository Pages, the Vite base path should be set to `/${repository}/` (the workflow passes this at build time).
