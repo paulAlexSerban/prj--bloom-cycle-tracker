@@ -5,11 +5,11 @@ import { writeMetaPlugin } from './writeMeta.plugin';
 import { VitePWA } from 'vite-plugin-pwa';
 
 import packageJson from './package.json';
-const SLUG = packageJson.name.split('/').pop();
+const SLUG = packageJson.name
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
-    const DOMAIN_PATH = command === 'serve' ? '/' : `/wbk--reactjs-playground/apps/${SLUG}`;
+    const DOMAIN_PATH = command === 'serve' ? '/' : `/${SLUG}`;
     return {
         base: DOMAIN_PATH,
         server: {
@@ -30,8 +30,8 @@ export default defineConfig(({ mode, command }) => {
                     background_color: '#fdf8f9',
                     display: 'standalone',
                     orientation: 'portrait',
-                    scope: '/',
-                    start_url: '/',
+                    scope: `${DOMAIN_PATH}`,
+                    start_url: `${DOMAIN_PATH}`,
                     icons: [
                         {
                             src: '/pwa-192x192.png',
