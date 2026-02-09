@@ -34,17 +34,17 @@ export default defineConfig(({ mode, command }) => {
                     start_url: `${DOMAIN_PATH}`,
                     icons: [
                         {
-                            src: '/pwa-192x192.png',
+                            src: `${DOMAIN_PATH}/pwa-192x192.png`,
                             sizes: '192x192',
                             type: 'image/png',
                         },
                         {
-                            src: '/pwa-512x512.png',
+                            src: `${DOMAIN_PATH}/pwa-512x512.png`,
                             sizes: '512x512',
                             type: 'image/png',
                         },
                         {
-                            src: '/pwa-512x512.png',
+                            src: `${DOMAIN_PATH}/pwa-512x512.png`,
                             sizes: '512x512',
                             type: 'image/png',
                             purpose: 'any maskable',
