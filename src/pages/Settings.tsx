@@ -11,13 +11,38 @@ export default function Settings() {
     const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
-        setIsDark(document.documentElement.classList.contains('dark'));
-    }, []);
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+        const resolveIsDark = () =>
+            data.profile.theme === 'dark' || (data.profile.theme === 'system' && media.matches);
+
+        const update = () => setIsDark(resolveIsDark());
+        update();
+
+        const handleChange = () => {
+            if (data.profile.theme === 'system') {
+                update();
+            }
+        };
+
+        if (media.addEventListener) {
+            media.addEventListener('change', handleChange);
+        } else {
+            media.addListener(handleChange);
+        }
+
+        return () => {
+            if (media.removeEventListener) {
+                media.removeEventListener('change', handleChange);
+            } else {
+                media.removeListener(handleChange);
+            }
+        };
+    }, [data.profile.theme]);
 
     const toggleTheme = () => {
-        document.documentElement.classList.toggle('dark');
+        const nextTheme = isDark ? 'light' : 'dark';
         setIsDark(!isDark);
-        updateProfile({ theme: !isDark ? 'dark' : 'light' });
+        updateProfile({ theme: nextTheme });
     };
 
     return (
