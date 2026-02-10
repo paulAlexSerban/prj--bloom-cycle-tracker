@@ -27,11 +27,6 @@
 **Needs:** Clear data flow and storage policies.
 **Success Measures:** No external data transmission by default, transparent user controls.
 
-### Third-Party Calendar Providers (Google Calendar)
-**Who:** External service used for optional calendar sync.
-**Needs:** OAuth-based access, clear scopes, rate-limit compliance.
-**Success Measures:** Reliable sync, minimal data sharing, user-controlled revocation.
-
 ## Communication Needs
 - Product roadmap and MVP scope.
 - Privacy posture and data handling model.

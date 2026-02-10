@@ -8,7 +8,6 @@ Bloom is a private, supportive period-tracking companion that helps users log cy
 - Provide personalized cycle predictions based on user history, not generic averages.
 - Offer timely guidance (e.g., pain management advice and anomaly alerts).
 - Preserve user privacy by keeping data local with optional export/import.
-- Support optional Google Calendar sync so users can view cycle events alongside their schedule.
 - Deliver a reliable, offline-capable mobile experience via PWA.
 
 ## Target Users
@@ -21,7 +20,6 @@ Bloom is a private, supportive period-tracking companion that helps users log cy
 - Personalized predictions driven by real user history.
 - Practical health guidance when symptoms are logged.
 - Visual, easy-to-read calendar and status insights.
-- Optional calendar integration to surface cycle events in Google Calendar.
 - PWA installability with offline support.
 
 ## Core Features (MVP)
@@ -32,7 +30,6 @@ Bloom is a private, supportive period-tracking companion that helps users log cy
 - Pain management advice contextual to symptoms.
 - Anomaly alerts for irregular or concerning cycles.
 - Reminders/alarms for logging and medication.
-- Optional Google Calendar sync for period, fertile window, ovulation, and predicted days.
 - User profile (age, typical cycle length, notes).
 - Data export/import for healthcare visits or device changes.
 - Light/dark theme support.
@@ -40,7 +37,6 @@ Bloom is a private, supportive period-tracking companion that helps users log cy
 ## Non-Goals / Constraints
 - No native smartwatch or deep health platform integration in MVP.
 - PWA push notifications are limited on iOS.
-- External calendar sync requires explicit user consent and must be revocable.
 - Not a medical diagnosis tool; guidance is informational only.
 
 ## Success Metrics

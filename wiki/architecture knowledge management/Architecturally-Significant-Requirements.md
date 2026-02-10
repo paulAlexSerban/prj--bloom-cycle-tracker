@@ -38,7 +38,3 @@ Bloom is a privacy-first period tracking PWA focused on local-only data storage,
 ## ASR-9: Pre-prod Deployment
 **Requirement:** The app must be deployable to a staging environment for testing before production release.
 **Architectural Impact:** Requires a CI/CD pipeline and hosting solution that supports PWA deployment.
-
-## ASR-10: Optional Google Calendar Sync (Opt-In)
-**Requirement:** Users can opt in to sync period, fertile window, ovulation, and predicted events with Google Calendar. Sync must be reversible and data-minimized.
-**Architectural Impact:** Requires OAuth-based authorization, secure token storage, a sync orchestration layer, conflict resolution rules, and adherence to Google API quotas. Must keep local-first behavior when offline.
