@@ -45,8 +45,8 @@ export function DayLogEditor({ date, onClose }: DayLogEditorProps) {
     const flows = Object.entries(FLOW_LABELS) as [FlowIntensity, string][];
 
     return (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center">
-            <div className="bg-card w-full max-w-lg max-h-[90vh] rounded-t-3xl sm:rounded-3xl shadow-xl border border-border overflow-hidden animate-scale-in">
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center sm:items-center justify-center">
+            <div className="bg-card w-full max-w-lg max-h-[85vh] rounded-t-3xl sm:rounded-3xl shadow-xl border border-border overflow-hidden animate-scale-in">
                 {/* Header */}
                 <div className="sticky top-0 bg-card/95 backdrop-blur-sm border-b border-border p-4 flex items-center justify-between">
                     <div>
@@ -59,7 +59,7 @@ export function DayLogEditor({ date, onClose }: DayLogEditorProps) {
                 </div>
 
                 {/* Content */}
-                <div className="overflow-y-auto p-4 space-y-6 max-h-[calc(90vh-140px)]">
+                <div className="overflow-y-auto p-4 space-y-6 max-h-[calc(85vh-160px)]">
                     {/* Period Toggle */}
                     <div className="space-y-3">
                         <label className="text-sm font-medium text-foreground">Period</label>

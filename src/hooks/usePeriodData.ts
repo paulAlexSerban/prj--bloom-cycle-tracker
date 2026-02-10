@@ -20,6 +20,44 @@ const defaultData: PeriodData = {
     profile: defaultProfile,
 };
 
+const toUtcDay = (date: string) => {
+    const [year, month, day] = date.split('-').map(Number);
+    return Date.UTC(year, month - 1, day) / 86400000;
+};
+
+const isNextDay = (date: string, previousDate: string) => toUtcDay(date) === toUtcDay(previousDate) + 1;
+
+const buildCyclesFromLogs = (logs: Record<string, DayLog>): CycleData[] => {
+    const periodDates = Object.values(logs)
+        .filter((log) => log.isPeriod)
+        .map((log) => log.date)
+        .sort();
+
+    if (periodDates.length === 0) return [];
+
+    const groupStarts: string[] = [];
+    let lastDate: string | null = null;
+
+    for (const date of periodDates) {
+        if (!lastDate || !isNextDay(date, lastDate)) {
+            groupStarts.push(date);
+        }
+        lastDate = date;
+    }
+
+    return groupStarts.map((startDate, index) => {
+        const nextStart = groupStarts[index + 1];
+        if (!nextStart) return { startDate };
+
+        const length = toUtcDay(nextStart) - toUtcDay(startDate);
+        return {
+            startDate,
+            endDate: format(addDays(parseISO(nextStart), -1), 'yyyy-MM-dd'),
+            length,
+        };
+    });
+};
+
 export function usePeriodData() {
     const [data, setData] = useState<PeriodData>(defaultData);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -30,7 +68,15 @@ export function usePeriodData() {
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 const parsed = JSON.parse(stored);
-                setData({ ...defaultData, ...parsed, profile: { ...defaultProfile, ...parsed.profile } });
+                const logs = parsed.logs ?? defaultData.logs;
+                const cycles = buildCyclesFromLogs(logs);
+                setData({
+                    ...defaultData,
+                    ...parsed,
+                    logs,
+                    cycles,
+                    profile: { ...defaultProfile, ...parsed.profile },
+                });
             }
         } catch (error) {
             console.error('Error loading period data:', error);
@@ -54,12 +100,15 @@ export function usePeriodData() {
             const existingLog = prev.logs[date] || { date, isPeriod: false, symptoms: [] };
             const updatedLog = { ...existingLog, ...log, date };
 
+            const updatedLogs = {
+                ...prev.logs,
+                [date]: updatedLog,
+            };
+
             return {
                 ...prev,
-                logs: {
-                    ...prev.logs,
-                    [date]: updatedLog,
-                },
+                logs: updatedLogs,
+                cycles: buildCyclesFromLogs(updatedLogs),
             };
         });
     }, []);
@@ -80,42 +129,35 @@ export function usePeriodData() {
 
     const startPeriod = useCallback((date: string) => {
         setData((prev) => {
-            // Close any open cycle
-            const updatedCycles = prev.cycles.map((cycle, index) => {
-                if (index === prev.cycles.length - 1 && !cycle.endDate) {
-                    const length = differenceInDays(parseISO(date), parseISO(cycle.startDate));
-                    return { ...cycle, endDate: format(addDays(parseISO(date), -1), 'yyyy-MM-dd'), length };
-                }
-                return cycle;
-            });
-
-            // Start new cycle
-            const newCycle: CycleData = { startDate: date };
+            const updatedLogs = {
+                ...prev.logs,
+                [date]: { ...prev.logs[date], date, isPeriod: true, symptoms: prev.logs[date]?.symptoms || [] },
+            };
 
             return {
                 ...prev,
-                cycles: [...updatedCycles, newCycle],
-                logs: {
-                    ...prev.logs,
-                    [date]: { ...prev.logs[date], date, isPeriod: true, symptoms: prev.logs[date]?.symptoms || [] },
-                },
+                logs: updatedLogs,
+                cycles: buildCyclesFromLogs(updatedLogs),
             };
         });
     }, []);
 
     const endPeriod = useCallback((date: string) => {
         setData((prev) => {
-            const updatedLogs = { ...prev.logs };
-            updatedLogs[date] = {
-                ...updatedLogs[date],
-                date,
-                isPeriod: true,
-                symptoms: updatedLogs[date]?.symptoms || [],
+            const updatedLogs = {
+                ...prev.logs,
+                [date]: {
+                    ...prev.logs[date],
+                    date,
+                    isPeriod: true,
+                    symptoms: prev.logs[date]?.symptoms || [],
+                },
             };
 
             return {
                 ...prev,
                 logs: updatedLogs,
+                cycles: buildCyclesFromLogs(updatedLogs),
             };
         });
     }, []);
@@ -125,18 +167,21 @@ export function usePeriodData() {
             const existingLog = prev.logs[date];
             const isPeriod = !(existingLog?.isPeriod ?? false);
 
+            const updatedLogs = {
+                ...prev.logs,
+                [date]: {
+                    ...existingLog,
+                    date,
+                    isPeriod,
+                    symptoms: existingLog?.symptoms || [],
+                    flowIntensity: isPeriod ? existingLog?.flowIntensity || 'medium' : undefined,
+                },
+            };
+
             return {
                 ...prev,
-                logs: {
-                    ...prev.logs,
-                    [date]: {
-                        ...existingLog,
-                        date,
-                        isPeriod,
-                        symptoms: existingLog?.symptoms || [],
-                        flowIntensity: isPeriod ? existingLog?.flowIntensity || 'medium' : undefined,
-                    },
-                },
+                logs: updatedLogs,
+                cycles: buildCyclesFromLogs(updatedLogs),
             };
         });
     }, []);
@@ -157,7 +202,15 @@ export function usePeriodData() {
     const importData = useCallback((jsonData: string) => {
         try {
             const parsed = JSON.parse(jsonData);
-            setData({ ...defaultData, ...parsed, profile: { ...defaultProfile, ...parsed.profile } });
+            const logs = parsed.logs ?? defaultData.logs;
+            const cycles = buildCyclesFromLogs(logs);
+            setData({
+                ...defaultData,
+                ...parsed,
+                logs,
+                cycles,
+                profile: { ...defaultProfile, ...parsed.profile },
+            });
             return true;
         } catch {
             return false;

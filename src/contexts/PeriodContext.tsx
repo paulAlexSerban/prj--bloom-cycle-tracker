@@ -48,15 +48,17 @@ export function PeriodProvider({ children }: { children: ReactNode }) {
         ...cycleCalculations,
     };
 
-    if (!periodData.isLoaded) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-background">
-                <div className="animate-pulse-soft text-primary text-xl font-display">Loading...</div>
-            </div>
-        );
-    }
-
-    return <PeriodContext.Provider value={value}>{children}</PeriodContext.Provider>;
+    return (
+        <PeriodContext.Provider value={value}>
+            {periodData.isLoaded ? (
+                children
+            ) : (
+                <div className="min-h-screen flex items-center justify-center bg-background">
+                    <div className="animate-pulse-soft text-primary text-xl font-display">Loading...</div>
+                </div>
+            )}
+        </PeriodContext.Provider>
+    );
 }
 
 export function usePeriod() {
