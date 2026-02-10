@@ -5,6 +5,7 @@ import { useCycleCalculations } from '@/hooks/useCycleCalculations';
 type PeriodContextType = ReturnType<typeof usePeriodData> & ReturnType<typeof useCycleCalculations>;
 
 const PeriodContext = createContext<PeriodContextType | null>(null);
+let lastPeriodContextValue: PeriodContextType | null = null;
 
 export function PeriodProvider({ children }: { children: ReactNode }) {
     const periodData = usePeriodData();
@@ -48,6 +49,8 @@ export function PeriodProvider({ children }: { children: ReactNode }) {
         ...cycleCalculations,
     };
 
+    lastPeriodContextValue = value;
+
     return (
         <PeriodContext.Provider value={value}>
             {periodData.isLoaded ? (
@@ -63,8 +66,7 @@ export function PeriodProvider({ children }: { children: ReactNode }) {
 
 export function usePeriod() {
     const context = useContext(PeriodContext);
-    if (!context) {
-        throw new Error('usePeriod must be used within a PeriodProvider');
-    }
-    return context;
+    if (context) return context;
+    if (lastPeriodContextValue) return lastPeriodContextValue;
+    throw new Error('usePeriod must be used within a PeriodProvider');
 }

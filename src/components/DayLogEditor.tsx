@@ -59,7 +59,7 @@ export function DayLogEditor({ date, onClose }: DayLogEditorProps) {
                 </div>
 
                 {/* Content */}
-                <div className="overflow-y-auto p-4 space-y-6 max-h-[calc(85vh-160px)]">
+                <div className="overflow-y-auto p-4 space-y-6 max-h-[calc(80vh-200px)]">
                     {/* Period Toggle */}
                     <div className="space-y-3">
                         <label className="text-sm font-medium text-foreground">Period</label>
